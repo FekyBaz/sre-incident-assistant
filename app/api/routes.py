@@ -2,6 +2,8 @@ from fastapi import APIRouter, Body, HTTPException
 
 from app.models.evidence import LogAnalysisResponse
 from app.models.incident import HealthResponse
+from app.models.investigation import InvestigationRequest, InvestigationResponse
+from app.services.investigation import InvestigationError, InvestigationService
 from app.tools.github_client import GitHubClientError, get_github_client
 from app.tools.log_analyzer import LogAnalyzer
 
@@ -69,3 +71,21 @@ def commit_diff(owner: str, repo: str, commit_sha: str):
         return diff.__dict__
     except GitHubClientError as exc:
         raise HTTPException(status_code=502, detail=str(exc)) from exc
+
+
+@router.post(
+    "/api/v1/investigations",
+    response_model=InvestigationResponse,
+    tags=["investigation"],
+)
+def investigate(request: InvestigationRequest) -> InvestigationResponse:
+    try:
+        result = InvestigationService().investigate(request)
+    except InvestigationError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+    return InvestigationResponse(
+        result=result,
+        evidence_count=len(result.evidence),
+        evidence_sources=sorted({item.source_type for item in result.evidence}),
+    )
