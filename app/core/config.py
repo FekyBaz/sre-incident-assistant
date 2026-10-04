@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     llm_provider: str = "gemini"
     llm_api_key: str = ""
     llm_model: str = ""
+    llm_base_url: str = "https://api.openai.com/v1"
     github_token: str = ""
 
     model_config = SettingsConfigDict(
