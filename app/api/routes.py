@@ -4,6 +4,7 @@ from app.models.evidence import LogAnalysisResponse
 from app.models.incident import HealthResponse
 from app.models.investigation import InvestigationRequest, InvestigationResponse
 from app.services.investigation import InvestigationError, InvestigationService
+from app.services.report import render_incident_report
 from app.tools.github_client import GitHubClientError, get_github_client
 from app.tools.log_analyzer import LogAnalyzer
 
@@ -89,3 +90,12 @@ def investigate(request: InvestigationRequest) -> InvestigationResponse:
         evidence_count=len(result.evidence),
         evidence_sources=sorted({item.source_type for item in result.evidence}),
     )
+
+
+@router.post('/api/v1/investigations/report', tags=['investigation'])
+def investigation_report(request: InvestigationRequest):
+    try:
+        result = InvestigationService().investigate(request)
+    except InvestigationError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    return {'format': 'markdown', 'report': render_incident_report(result)}
