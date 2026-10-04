@@ -166,6 +166,7 @@ Rules:
         except Exception as exc:
             raise InvestigationError("Investigation model failed.") from exc
 
+        result.incident = request.incident
         valid_ids = {item.id for item in evidence}
         for hypothesis in result.hypotheses:
             invalid = (
