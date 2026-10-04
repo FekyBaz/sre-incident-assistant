@@ -42,3 +42,24 @@ def test_investigation_rejects_missing_evidence():
         assert "No evidence" in str(exc)
     else:
         raise AssertionError("Expected investigation to fail without evidence")
+
+
+
+def test_default_service_resolves_llm_lazily(monkeypatch):
+    import app.services.investigation as investigation_module
+
+    calls = []
+    def factory():
+        calls.append(True)
+        return FakeLLM()
+
+    monkeypatch.setattr(investigation_module, "get_llm_service", factory)
+    service = InvestigationService()
+    request = InvestigationRequest(
+        incident={"title": "API latency", "description": "Requests became slow."},
+        log_content="2026-10-04T10:05:49Z ERROR database timeout",
+    )
+    result = service.investigate(request)
+    assert calls == [True]
+    assert result.root_cause
+    assert result.evidence
