@@ -167,6 +167,7 @@ Rules:
             raise InvestigationError("Investigation model failed.") from exc
 
         result.incident = request.incident
+        result.evidence = evidence
         valid_ids = {item.id for item in evidence}
         for hypothesis in result.hypotheses:
             invalid = (
@@ -178,5 +179,4 @@ Rules:
                     f"Model referenced evidence IDs that do not exist: {sorted(invalid)}"
                 )
 
-        result.evidence = evidence
         return result
