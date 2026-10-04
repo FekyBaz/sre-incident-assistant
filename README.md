@@ -247,3 +247,35 @@ For more information about the challenge, training programs, and upcoming batche
 ## 📄 License
 
 This project is shared for educational and portfolio purposes.
+
+
+## Local Development
+
+Install the project and development dependencies:
+
+```bash
+python -m venv .venv
+# Windows: .venv\\Scripts\\activate
+# macOS/Linux: source .venv/bin/activate
+pip install -e ".[dev]"
+```
+
+Configure environment variables from `.env.example`, then run the API:
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Open the interactive API docs at `/docs`.
+
+Run the Streamlit demo:
+
+```bash
+streamlit run streamlit_app.py
+```
+
+The MVP accepts incident context, optional logs, and an optional GitHub repository. The investigation engine collects bounded evidence, asks the LLM for a structured RCA, validates evidence references, and renders a Markdown incident report.
+
+## Evaluation
+
+A five-scenario benchmark is available in `evaluation/benchmark.json`. The evaluation methodology is documented in `evaluation/README.md`.
