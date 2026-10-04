@@ -54,7 +54,7 @@ def render_incident_report(result: InvestigationResult) -> str:
         '',
         result.remediation.rationale,
         '',
-        f'**Human review required:** {human_review}',
+        f'**Human review required:** {result.remediation.human_review_required}',
         '',
         '## Limitations',
     ])

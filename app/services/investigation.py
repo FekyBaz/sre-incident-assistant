@@ -17,7 +17,7 @@ class InvestigationService:
         llm_service: LLMService | None = None,
         log_analyzer: LogAnalyzer | None = None,
     ) -> None:
-        self.llm_service = llm_service or get_llm_service()
+        self.llm_service = llm_service
         self.log_analyzer = log_analyzer or LogAnalyzer()
 
     def build_evidence(self, request: InvestigationRequest) -> list[Evidence]:
@@ -39,17 +39,27 @@ class InvestigationService:
                     )
                 )
 
-            if not analysis.error_entries:
-                for index, entry in enumerate(analysis.representative_entries[:10], start=1):
-                    evidence.append(
-                        Evidence(
-                            id=f"log-entry-{index}",
-                            source_type="log",
-                            source_ref=f"{request.log_filename}#entry-{index}",
-                            content=entry.raw,
-                            relevance=0.6,
-                        )
+            error_raw = {entry.raw for entry in analysis.error_entries}
+            supplemental_entries = [
+                entry
+                for entry in analysis.representative_entries
+                if entry.raw not in error_raw
+            ][:10]
+            for index, entry in enumerate(supplemental_entries, start=1):
+                relevance = (
+                    0.8
+                    if entry.level and entry.level.upper() in {"WARN", "WARNING"}
+                    else 0.6
+                )
+                evidence.append(
+                    Evidence(
+                        id=f"log-entry-{index}",
+                        source_type="log",
+                        source_ref=f"{request.log_filename}#entry-{index}",
+                        content=entry.raw,
+                        relevance=relevance,
                     )
+                )
 
         if request.github_repository:
             client = get_github_client()
@@ -126,6 +136,7 @@ class InvestigationService:
                 "No evidence was collected. Provide incident logs or a GitHub repository."
             )
 
+        llm_service = self.llm_service or get_llm_service()
         evidence_text = "\n\n".join(
             f"[{item.id}] source={item.source_type} ref={item.source_ref}\n{item.content}"
             for item in evidence
