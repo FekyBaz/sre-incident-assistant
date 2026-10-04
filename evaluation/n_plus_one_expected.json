@@ -1,0 +1,14 @@
+{
+  "scenario_id": "n-plus-one-query",
+  "expected_root_cause": "N+1 database query introduced by a recent application change.",
+  "required_signals": [
+    "latency regression",
+    "elevated database query count",
+    "database pool wait or timeout",
+    "database call inside an order loop"
+  ],
+  "acceptable_rationale": [
+    "The recent code change performs one item query for every order.",
+    "The observed query count and latency increase are consistent with an N+1 query pattern."
+  ]
+}
