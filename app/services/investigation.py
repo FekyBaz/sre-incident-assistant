@@ -170,7 +170,7 @@ Rules:
 """
 
         try:
-            result = self.llm_service.generate_structured(
+            result = llm_service.generate_structured(
                 prompt,
                 InvestigationResult,
             )

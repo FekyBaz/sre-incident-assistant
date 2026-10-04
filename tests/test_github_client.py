@@ -18,3 +18,14 @@ def test_parse_repository_variants():
 def test_parse_repository_rejects_non_github():
     with pytest.raises(GitHubClientError):
         GitHubClient.parse_repository("https://example.com/acme/project")
+
+
+
+@pytest.mark.parametrize("value", [
+    "FekyBaz/sre-incident-assistant",
+    "https://github.com/FekyBaz/sre-incident-assistant",
+    "https://github.com/FekyBaz/sre-incident-assistant.git",
+    "git@github.com:FekyBaz/sre-incident-assistant.git",
+])
+def test_all_documented_repository_forms(value):
+    assert GitHubClient.parse_repository(value) == ("FekyBaz", "sre-incident-assistant")

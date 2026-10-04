@@ -23,6 +23,8 @@ def render_incident_report(result: InvestigationResult) -> str:
 
     if result.hypotheses:
         for index, hypothesis in enumerate(result.hypotheses, start=1):
+            supporting = ', '.join(hypothesis.supporting_evidence_ids) or 'None'
+            contradicting = ', '.join(hypothesis.contradicting_evidence_ids) or 'None'
             lines.extend([
                 f'### {index}. {hypothesis.title}',
                 hypothesis.explanation,

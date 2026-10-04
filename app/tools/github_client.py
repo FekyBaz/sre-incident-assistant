@@ -70,7 +70,7 @@ class GitHubClient:
     def parse_repository(value: str) -> tuple[str, str]:
         raw = value.strip()
         if raw.startswith("git@github.com:"):
-            raw = raw.split(":", 1)[1]
+            raw = f"https://github.com/{raw.split(':', 1)[1]}"
         elif "://" not in raw:
             raw = f"https://github.com/{raw}"
 
