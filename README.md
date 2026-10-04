@@ -279,3 +279,14 @@ The MVP accepts incident context, optional logs, and an optional GitHub reposito
 ## Evaluation
 
 A five-scenario benchmark is available in `evaluation/benchmark.json`. The evaluation methodology is documented in `evaluation/README.md`.
+
+## Demo Scenario
+
+The repository includes an intentionally regressed N+1 query scenario under `demo/n_plus_one_regression/`.
+It demonstrates the intended evidence chain: latency regression → elevated database query count → database timeout/pool wait → recent code change containing a database call inside a loop.
+
+See `demo/n_plus_one_regression/README.md` for the walkthrough and `evaluation/n_plus_one_expected.json` for the expected RCA.
+
+## Safety Boundary
+
+The assistant is advisory. It does not modify production systems, deploy code, execute remediation, or treat an LLM conclusion as established fact without evidence.
