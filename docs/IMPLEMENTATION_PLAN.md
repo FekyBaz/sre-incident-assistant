@@ -45,6 +45,8 @@ Deliver a focused MVP of SRE Incident Assistant for the Tips Hindawi LLMs Intern
 - Incident report export/display
 
 ### M5 — Evaluation & Submission Polish
+
+Current status: engineering MVP implemented; remaining work is benchmark execution, final documentation, and submission packaging.
 - Five known incident scenarios
 - RCA accuracy/evidence relevance checks
 - Hallucination guard checks
