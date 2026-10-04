@@ -116,15 +116,25 @@ class GitHubClient:
                 continue
             commit = item.get("commit", {})
             author = commit.get("author", {}) if isinstance(commit, dict) else {}
-            files = item.get("files", [])
-            file_names = [
-                str(file.get("filename"))
-                for file in files
-                if isinstance(file, dict) and file.get("filename")
-            ]
+            sha = str(item.get("sha", ""))
+            file_names: list[str] = []
+            if sha:
+                try:
+                    detail = self._request("GET", f"/repos/{owner}/{name}/commits/{sha}")
+                    if isinstance(detail, dict):
+                        detail_files = detail.get("files", [])
+                        file_names = [
+                            str(file.get("filename"))
+                            for file in detail_files
+                            if isinstance(file, dict) and file.get("filename")
+                        ][:100]
+                except GitHubClientError:
+                    # Commit metadata remains useful even if the detail request fails.
+                    file_names = []
+
             commits.append(
                 GitHubCommit(
-                    sha=str(item.get("sha", "")),
+                    sha=sha,
                     message=str(commit.get("message", "")).splitlines()[0][:500],
                     author=str(author.get("name")) if author.get("name") else None,
                     committed_at=str(author.get("date")) if author.get("date") else None,
