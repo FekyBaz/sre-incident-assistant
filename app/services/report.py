@@ -27,8 +27,8 @@ def render_incident_report(result: InvestigationResult) -> str:
                 f'### {index}. {hypothesis.title}',
                 hypothesis.explanation,
                 f'- Confidence: {hypothesis.confidence:.0%}',
-                f'- Supporting evidence: {', '.join(hypothesis.supporting_evidence_ids) or 'None'}',
-                f'- Contradicting evidence: {', '.join(hypothesis.contradicting_evidence_ids) or 'None'}',
+                f'- Supporting evidence: {supporting}',
+                f'- Contradicting evidence: {contradicting}',
                 '',
             ])
     else:
@@ -54,7 +54,7 @@ def render_incident_report(result: InvestigationResult) -> str:
         '',
         result.remediation.rationale,
         '',
-        f'**Human review required:** {'Yes' if result.remediation.human_review_required else 'No'}',
+        f'**Human review required:** {human_review}',
         '',
         '## Limitations',
     ])
