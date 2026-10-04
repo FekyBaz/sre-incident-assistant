@@ -30,3 +30,10 @@ def test_large_input_is_bounded():
 
     assert result.total_entries == 5
     assert result.warnings
+
+
+def test_fractional_second_timestamp_is_parsed():
+    content = "2026-10-04T10:05:47.123Z WARN queries=51"
+    result = LogAnalyzer().analyze(content, "app.log")
+
+    assert result.representative_entries[0].timestamp == "2026-10-04T10:05:47.123Z"
