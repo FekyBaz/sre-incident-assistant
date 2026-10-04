@@ -1,0 +1,37 @@
+[
+  {
+    "id": "n-plus-one-query",
+    "title": "API latency regression after deployment",
+    "expected_root_cause": "N+1 database query introduced by a recent application change.",
+    "evidence_types": ["log", "github_commit", "github_diff"],
+    "key_signals": ["database query count increased", "recent repository change", "latency increased"]
+  },
+  {
+    "id": "memory-leak",
+    "title": "Worker memory exhaustion",
+    "expected_root_cause": "Application memory leak causing steadily increasing process memory.",
+    "evidence_types": ["log", "github_commit"],
+    "key_signals": ["out of memory", "memory growth", "worker restart"]
+  },
+  {
+    "id": "external-api-timeout",
+    "title": "External payment API timeout",
+    "expected_root_cause": "Upstream payment provider latency or timeout affecting request processing.",
+    "evidence_types": ["log", "github_commit"],
+    "key_signals": ["timeout", "upstream", "payment provider"]
+  },
+  {
+    "id": "config-regression",
+    "title": "Service failure after configuration change",
+    "expected_root_cause": "Invalid or incompatible configuration introduced during deployment.",
+    "evidence_types": ["log", "github_diff"],
+    "key_signals": ["configuration", "invalid value", "startup failure"]
+  },
+  {
+    "id": "db-connection-exhaustion",
+    "title": "Database connection pool exhaustion",
+    "expected_root_cause": "Application exhausted available database connections under load.",
+    "evidence_types": ["log", "github_commit"],
+    "key_signals": ["connection pool", "too many connections", "database unavailable"]
+  }
+]
