@@ -1,0 +1,6 @@
+2026-10-04T10:00:00Z INFO deployment completed version=2026.10.04
+2026-10-04T10:01:12Z INFO request route=/orders duration_ms=188
+2026-10-04T10:05:47Z WARN database query count elevated route=/orders queries=51
+2026-10-04T10:05:48Z ERROR request latency regression route=/orders duration_ms=4820
+2026-10-04T10:05:49Z ERROR database timeout route=/orders pool_wait_ms=3100
+2026-10-04T10:06:02Z INFO request route=/health duration_ms=4
