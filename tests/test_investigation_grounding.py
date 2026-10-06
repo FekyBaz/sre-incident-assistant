@@ -1,5 +1,5 @@
-from app.models.investigation import InvestigationRequest
 from app.models.incident import Hypothesis, InvestigationResult, Remediation
+from app.models.investigation import InvestigationRequest
 from app.services.investigation import InvestigationError, InvestigationService
 from app.services.llm import LLMService
 

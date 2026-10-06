@@ -6,11 +6,10 @@ from collections import Counter
 from dataclasses import dataclass
 from typing import Any
 
-
 _TIMESTAMP = re.compile(
     r"(?P<timestamp>\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?)"
 )
-_LEVEL = re.compile(r"\b(?P<level>TRACE|DEBUG|INFO|WARN|WARNING|ERROR|FATAL|CRITICAL)\b", re.I)
+_LEVEL = re.compile(r"\b(?P<level>TRACE|DEBUG|INFO|WARN|WARNING|ERROR|FATAL|CRITICAL)\b", re.IGNORECASE)
 
 
 @dataclass(frozen=True)
@@ -116,7 +115,7 @@ class LogAnalyzer:
 
     @staticmethod
     def _looks_like_json(text: str) -> bool:
-        return text.startswith("{") or text.startswith("[")
+        return text.startswith(("{", "["))
 
     @staticmethod
     def _parse_line(line: str) -> ParsedLog:

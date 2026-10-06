@@ -4,7 +4,6 @@ from app.models.investigation import InvestigationRequest
 from app.services.investigation import InvestigationError, InvestigationService
 from app.services.report import render_incident_report
 
-
 st.set_page_config(
     page_title="SRE Incident Assistant",
     page_icon="🚨",

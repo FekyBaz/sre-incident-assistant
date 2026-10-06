@@ -98,10 +98,6 @@ The LLM provider is kept replaceable so the system can support different provide
 
 ## ⚙️ Installation
 
-> Installation instructions will be finalized when the MVP implementation is complete.
-
-Expected setup:
-
 ```bash
 git clone https://github.com/FekyBaz/sre-incident-assistant.git
 cd sre-incident-assistant
@@ -109,12 +105,12 @@ cd sre-incident-assistant
 python -m venv .venv
 
 # Windows
-.venv\\Scripts\\activate
+.venv\Scripts\activate
 
 # Linux / macOS
 source .venv/bin/activate
 
-pip install -r requirements.txt
+pip install -e ".[dev]"
 ```
 
 Create a `.env` file based on `.env.example` and provide the required API credentials.

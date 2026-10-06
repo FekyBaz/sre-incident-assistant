@@ -1,13 +1,11 @@
-from abc import ABC, abstractmethod
 import json
+from abc import ABC, abstractmethod
 from typing import TypeVar
 
 import httpx
-
 from pydantic import BaseModel
 
 from app.core.config import settings
-
 
 T = TypeVar("T", bound=BaseModel)
 

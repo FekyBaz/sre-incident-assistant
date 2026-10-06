@@ -1,6 +1,6 @@
+from app.models.incident import InvestigationResult, Remediation
 from app.models.investigation import InvestigationRequest
-from app.models.incident import Evidence, InvestigationResult, Remediation
-from app.services.investigation import InvestigationService
+from app.services.investigation import InvestigationError, InvestigationService
 from app.services.llm import LLMService
 
 
@@ -38,7 +38,7 @@ def test_investigation_rejects_missing_evidence():
 
     try:
         service.investigate(request)
-    except Exception as exc:
+    except InvestigationError as exc:
         assert "No evidence" in str(exc)
     else:
         raise AssertionError("Expected investigation to fail without evidence")
